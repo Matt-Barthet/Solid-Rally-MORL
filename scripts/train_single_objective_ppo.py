@@ -1,3 +1,4 @@
+import argparse
 import numpy as np
 from solid_rally import SolidRallyEnvironment
 from stable_baselines3 import PPO
@@ -41,14 +42,29 @@ class SolidRallyRallySingleObjective(SolidRallyEnvironment):
 
 
 if __name__ == "__main__":
-    run = 1
-    weight = 1
-    cluster = 4
+    # Set up argument parser
+    parser = argparse.ArgumentParser(description="Train a PPO model for Solid Rally Rally Single Objective.")
+    parser.add_argument("--run", type=int, required=True, help="Run ID")
+    parser.add_argument("--weight", type=float, required=True, help="Weight value")
+    parser.add_argument("--cluster", type=int, required=True, help="Cluster index")
+
+    # Parse arguments
+    args = parser.parse_args()
+
+    # Extract parameters
+    run = args.run
+    weight = args.weight
+    cluster = args.cluster
+
+    # Define environment
     env = SolidRallyRallySingleObjective(id_number=run, weight=weight, graphics=False, logging=True,
                                          path="solid_rally/Racing_Linux.x86", log_prefix="ppo/", cluster=cluster)
     env.targetSignal = np.ones
 
+    # Cluster names
     cluster_names = ["All Players", "Intermediates", "Beginners", "Excited_Experts", "Unexcited_Experts"]
+
+    # Define and train the model
     model = PPO("MlpPolicy", env=env, tensorboard_log=f"./Tensorboard/ppo/Affectively_Log_{cluster_names[cluster]}_{weight}λ_Run{run}", device='cpu')
     model.learn(total_timesteps=10000000, progress_bar=True)
     model.save(f"./Agents/ppo/ppo_solid_rally_cluster{cluster}_{weight}λ_{run}")

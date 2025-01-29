@@ -59,7 +59,7 @@ if __name__ == "__main__":
         game_path = "../solid_rally/windows/racing.exe"
 
 
-    env = SolidRallyRallySingleObjective(id_number=run, weight=weight, graphics=True, logging=True,
+    env = SolidRallyRallySingleObjective(id_number=run, weight=weight, graphics=False, logging=True,
                                          path=game_path, log_prefix="ppo/", cluster=cluster)
 
     cluster_names = ["All Players", "Intermediates", "Beginners", "Excited_Experts", "Unexcited_Experts"]

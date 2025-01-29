@@ -30,10 +30,11 @@ for run, weight, cluster in itertools.product(runs, weights, clusters):
             "bash", "-c", f"{command};"
         ])
     elif system == "Windows":
-        # Use start command for Windows
-        subprocess.Popen(
-            ["cmd.exe", "/K", f"conda activate {conda_env} && {command}"], shell=True
-        )
+        # Use Windows Terminal (wt) and open a new tab
+        subprocess.Popen([
+            "wt", "new-tab", "cmd.exe", "/K",
+            f'call {command}'
+        ])
     elif system == "Darwin":  # macOS
         # Use Terminal on macOS
         subprocess.Popen(

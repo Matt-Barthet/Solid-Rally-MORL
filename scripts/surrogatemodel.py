@@ -118,8 +118,8 @@ class KNNSurrogateModel:
 		return data, arousals
 	
 	def load_data(self):
-		fname = f'datasets/{self.game}_nonorm_with_clusters.csv'
-		fname_train = f'datasets/{self.game}_pairs_classification.csv'
+		fname = f'../datasets/{self.game}_nonorm_with_clusters.csv'
+		fname_train = f'../datasets/{self.game}_pairs_classification.csv'
 		unscaled_data, _ = self.load_and_clean(fname, False)
 		self.x_train, self.y_train = self.load_and_clean(fname_train, True)
 		self.scaler.fit(unscaled_data.values)

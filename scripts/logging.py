@@ -6,8 +6,8 @@ import shutil
 
 
 def backup(log_dir):
-    if not os.path.exists("./Tensorboard/backups"):
-        os.mkdir("./Tensorboard/backups")
+    if not os.path.exists("../Tensorboard/backups"):
+        os.mkdir("../Tensorboard/backups")
     if os.path.exists(log_dir):
         counter = 1
         while True:

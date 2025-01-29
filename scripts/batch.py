@@ -3,7 +3,7 @@ import itertools
 import time
 
 # Define parameters
-runs = [2]  # Example run IDs
+runs = [4]  # Example run IDs
 weights = [0.5]  # Example weight values
 clusters = [0, 1, 2, 3, 4]  # Cluster indices
 

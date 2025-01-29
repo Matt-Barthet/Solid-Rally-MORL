@@ -146,7 +146,7 @@ class SolidRallyEnvironment(gym.Env, ABC):
             self.arousal_count = 0
             # print(arousal)
 
-        transformed_action = [action[0] - 1, action[1] - 1, send_arousal]
+        transformed_action = [action[0] - 1, action[1] - 1, send_arousal, 0, 0]
         state, env_score, done, info = self.env.step(transformed_action)
         state = self.construct_state(state)
         self.current_score = env_score

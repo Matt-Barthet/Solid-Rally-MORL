@@ -10,7 +10,7 @@ from mlagents_envs.side_channel import OutgoingMessage
 from mlagents_envs.side_channel.engine_configuration_channel import EngineConfigurationChannel
 from tensorboardX import SummaryWriter
 
-from scripts.logging import backup
+from custom_logging import backup
 from sidechannels import AffectivelySideChannel
 from surrogatemodel import KNNSurrogateModel
 

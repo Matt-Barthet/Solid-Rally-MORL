@@ -70,7 +70,7 @@ class SolidRallyEnvironment(gym.Env, ABC):
         self.previous_score, self.episode_length, self.arousal_count = 0, 0, 0
 
         cluster_names = ["All Players", "Intermediates", "Beginners", "Excited_Experts", "Unexcited_Experts"]
-        self.callback = TensorBoardCallback(f'./Tensorboard/{log_prefix}ppo-{cluster_names[cluster]}-{weight}λ-run{id_number}', self) if logging else None
+        self.callback = TensorBoardCallback(f'../results/tensorboard/{log_prefix}ppo-{cluster_names[cluster]}-{weight}λ-run{id_number}', self) if logging else None
         self.create_and_send_message("[Save States]:Seed")
 
     def construct_state(self, state):

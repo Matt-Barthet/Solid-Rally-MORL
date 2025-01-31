@@ -58,11 +58,8 @@ if __name__ == "__main__":
     else:
         game_path = "../solid_rally/windows/racing.exe"
 
-
-    env = SolidRallyRallySingleObjective(id_number=run, weight=weight, graphics=False, logging=True,
-                                         path=game_path, log_prefix="ppo/", cluster=cluster)
-
+    env = SolidRallyRallySingleObjective(id_number=run, weight=weight, graphics=False, logging=True, path=game_path, log_prefix="ppo/", cluster=cluster)
     cluster_names = ["All Players", "Intermediates", "Beginners", "Excited_Experts", "Unexcited_Experts"]
-    model = PPO("MlpPolicy", env=env, tensorboard_log=f"./Tensorboard/ppo/Affectively_Log_{cluster_names[cluster]}_{weight}λ_Run{run}", device='cpu')
+    model = PPO("MlpPolicy", env=env, tensorboard_log=f"../results/tensorboard/ppo/Affectively_Log_{cluster_names[cluster]}_{weight}λ_Run{run}", device='cpu')
     model.learn(total_timesteps=10000000, progress_bar=True)
-    model.save(f"./Agents/ppo/ppo_solid_rally_cluster{cluster}_{weight}λ_{run}")
+    model.save(f"../results/agents/ppo/ppo_solid_rally_cluster{cluster}_{weight}λ_{run}.zip")

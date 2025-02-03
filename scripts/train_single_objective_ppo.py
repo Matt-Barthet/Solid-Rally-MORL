@@ -8,9 +8,11 @@ import platform
 class SolidRallyRallySingleObjective(SolidRallyEnvironment):
 
     def __init__(self, id_number, graphics, weight, path, logging=True, log_prefix="", cluster=0):
+    def __init__(self, id_number, graphics, weight, path, logging=True, log_prefix="", cluster=0, targetArousal=1):
         super().__init__(id_number=id_number, graphics=graphics, path=path, logging=logging, log_prefix=log_prefix, cluster=cluster, weight=weight)
         self.weight = weight
         self.arousals = []
+        self.target_arousal = targetArousal
 
     def reward_behavior(self):
         # Using reward from the environment as behavior reward (i.e. optimize env score)
@@ -19,8 +21,7 @@ class SolidRallyRallySingleObjective(SolidRallyEnvironment):
 
     def reward_affect(self):
         mean_arousal = np.sum(self.arousals) / len(self.arousals) # Arousal range [0, 1]
-        target_arousal = 1
-        return 1 - (target_arousal - mean_arousal) # reward similarity to target arousal
+        return 1 - (self.target_arousal - mean_arousal) # reward similarity to target arousal
 
 
     def step(self, action):
@@ -44,11 +45,13 @@ if __name__ == "__main__":
     parser.add_argument("--run", type=int, required=True, help="Run ID")
     parser.add_argument("--weight", type=float, required=True, help="Weight value for SORL reward")
     parser.add_argument("--cluster", type=int, required=True, help="Cluster index for Arousal Persona")
+    parser.add_argument("--targetArousal", type=float, required=True, help="Target Arousal")
     args = parser.parse_args()
 
     run = args.run
     weight = args.weight
     cluster = args.cluster
+    targetArousal = args.targetArousal
 
     system = platform.system()
     if system == "Darwin":
@@ -58,8 +61,8 @@ if __name__ == "__main__":
     else:
         game_path = "../solid_rally/windows/racing.exe"
 
-    env = SolidRallyRallySingleObjective(id_number=run, weight=weight, graphics=False, logging=True, path=game_path, log_prefix="ppo/", cluster=cluster)
+    env = SolidRallyRallySingleObjective(id_number=run, weight=weight, graphics=False, logging=True, path=game_path, log_prefix="ppo/", cluster=cluster, targetArousal=targetArousal)
     cluster_names = ["All Players", "Intermediates", "Beginners", "Excited_Experts", "Unexcited_Experts"]
     model = PPO("MlpPolicy", env=env, tensorboard_log=f"../results/tensorboard/ppo/Affectively_Log_{cluster_names[cluster]}_{weight}λ_Run{run}", device='cpu')
     model.learn(total_timesteps=10000000, progress_bar=True)
-    model.save(f"../results/agents/ppo/ppo_solid_rally_cluster{cluster}_{weight}λ_{run}.zip")
+    model.save(f"../results/agents/ppo/ppo_solid_rally_cluster{cluster}_{weight}λ_run{run}.zip")

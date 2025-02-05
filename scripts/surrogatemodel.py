@@ -40,26 +40,13 @@ class KNNSurrogateModel:
 		self.max_score = 0
 		self.cluster = cluster
 		self.target_behavior, self.target_arousal = [], []
-		if game == "Heist":
-			self.max_score = 500
-		elif game == "Pirates":
-			self.max_score = 460
-		elif game == "Solid":
+		if game == "Solid":
 			self.max_score = 24
 		else:
 			raise ValueError(f"Game {game} not supported.")
 		self.load_data()
 	
-	def __call__(self, state):  # TODO: Type hinting, better docstring
-		"""
-		Compute a prediction using the surrogate model.
-		
-		Args:
-			state: The game state.
-
-		Returns: A prediction and the neighbours indices.
-
-		"""
+	def __call__(self, state):
 		distances = np.array(np.sqrt(np.sum((state - self.x_train) ** 2, axis=1)))
 		k_indices = np.array(np.argsort(distances)[:self.k])
 		k_labels = np.array(self.y_train)[k_indices]
@@ -70,7 +57,7 @@ class KNNSurrogateModel:
 			weighted_sum = np.sum(weights * k_labels)
 			total_weights = np.sum(weights)
 			predicted_class = weighted_sum / total_weights
-		# print(k_indices, k_labels)
+		# print(k_labels, predicted_class)
 		return predicted_class, k_indices
 	
 	def load_and_clean(self, filename: str, preference: bool):

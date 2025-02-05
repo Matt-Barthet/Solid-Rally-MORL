@@ -7,7 +7,6 @@ import platform
 
 class SolidRallyRallySingleObjective(SolidRallyEnvironment):
 
-    def __init__(self, id_number, graphics, weight, path, logging=True, log_prefix="", cluster=0):
     def __init__(self, id_number, graphics, weight, path, logging=True, log_prefix="", cluster=0, targetArousal=1):
         super().__init__(id_number=id_number, graphics=graphics, path=path, logging=logging, log_prefix=log_prefix, cluster=cluster, weight=weight)
         self.weight = weight

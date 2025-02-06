@@ -21,10 +21,8 @@ class SolidRallyRallySingleObjective(SolidRallyEnvironment):
 
     def reward_affect(self):
         # Reward similarity of mean arousal this period to target arousal (0 = minimize, 1 = maximize)
-        mean_arousal = np.mean(self.period_arousal_trace) # Arousal range [0, 1]
+        mean_arousal = np.mean(self.period_arousal_trace) if len(self.period_arousal_trace) > 0 else 0 # Arousal range [0, 1]
         r_a = 1 - np.abs(self.target_arousal - mean_arousal)
-        print(self.period_arousal_trace, mean_arousal, r_a)
-
         self.best_ra = np.max([self.best_ra, r_a])
         self.cumulative_ra += r_a
         self.period_arousal_trace.clear()

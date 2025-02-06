@@ -84,6 +84,7 @@ class SolidRallyEnvironment(gym.Env, ABC):
     def generate_arousal(self):
         arousal = 0
         self.current_surrogate = np.array(self.customSideChannel.arousal_vector.copy(), dtype=np.float32)
+
         if self.current_surrogate.size != 0:
             scaled_obs = np.array(self.scaler.transform(self.current_surrogate.reshape(1, -1))[0])
             if self.previous_surrogate.size == 0:
@@ -91,12 +92,14 @@ class SolidRallyEnvironment(gym.Env, ABC):
             previous_scaler = np.array(self.scaler.transform(self.previous_surrogate.reshape(1, -1))[0])
             unclipped_tensor = np.array(list(previous_scaler) + list(scaled_obs))
             tensor = torch.Tensor(np.clip(unclipped_tensor, 0, 1))
+            tensor= torch.nan_to_num(tensor, nan=0)
             self.previous_surrogate = previous_scaler
             arousal = self.model(tensor)[0]
             if not np.isnan(arousal):
                 self.episode_arousal_trace.append(arousal)
                 self.period_arousal_trace.append(arousal)
             self.previous_surrogate = self.current_surrogate.copy()
+            self.customSideChannel.arousal_vector.clear()
         return arousal
 
     def step(self, action):

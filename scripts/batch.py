@@ -6,7 +6,7 @@ import platform
 
 # Define parameters
 runs = [1]  # Example run IDs
-weights = [0.5]  # Example weight values
+weights = [1]  # Example weight values
 clusters = [0]  # Cluster indices
 targetArousal = 0
 

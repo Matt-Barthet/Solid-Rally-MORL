@@ -38,9 +38,13 @@ class TensorBoardCallback:
         self.best_cumulative_rb = np.max([self.best_cumulative_rb, self.environment.cumulative_rb])
         self.best_cumulative_rl = np.max([self.best_cumulative_rl, self.environment.cumulative_rl])
 
-        mean_rl = np.nan_to_num(self.environment.cumulative_rl / self.environment.current_score)
-        mean_ra = np.nan_to_num(self.environment.cumulative_ra / self.environment.current_score)
-        mean_rb = np.nan_to_num(self.environment.cumulative_rb / self.environment.current_score)
+        # mean_rl = np.nan_to_num(self.environment.cumulative_rl / self.environment.current_score)
+        # mean_ra = np.nan_to_num(self.environment.cumulative_ra / self.environment.current_score)
+        # mean_rb = np.nan_to_num(self.environment.cumulative_rb / self.environment.current_score)
+
+        mean_rl = np.nan_to_num(self.environment.cumulative_rl / len(self.environment.episode_arousal_trace))
+        mean_ra = np.nan_to_num(self.environment.cumulative_ra / len(self.environment.episode_arousal_trace))
+        mean_rb = np.nan_to_num(self.environment.cumulative_rb / len(self.environment.episode_arousal_trace))
 
         self.best_env_score = np.max([self.environment.current_score, self.best_env_score])
 

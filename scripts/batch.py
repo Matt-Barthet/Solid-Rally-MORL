@@ -6,9 +6,9 @@ import platform
 
 # Define parameters
 runs = [1]  # Example run IDs
-weights = [1]  # Example weight values
+weights = [0]  # Example weight values
 clusters = [0]  # Cluster indices
-targetArousal = 0
+targetArousals = [0, 1]
 
 cwd = os.getcwd()
 script_path = "train_single_objective_ppo.py"
@@ -16,7 +16,7 @@ conda_env = "affect-envs"
 system = platform.system()
 
 # Iterate over all combinations of parameters
-for run, weight, cluster in itertools.product(runs, weights, clusters):
+for run, weight, cluster, targetArousal in itertools.product(runs, weights, clusters, targetArousals):
     # Command to activate Conda and execute the script
     command = (
         f"cd {cwd} && conda activate {conda_env} && "

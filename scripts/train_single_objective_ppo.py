@@ -10,10 +10,12 @@ class SolidRallyRallySingleObjective(SolidRallyEnvironment):
     def __init__(self, id_number, graphics, weight, path, logging=True, log_prefix="", cluster=0, target_arousal=1):
         super().__init__(id_number=id_number, graphics=graphics, path=path, logging=logging, log_prefix=log_prefix, cluster=cluster, weight=weight, target_arousal=target_arousal)
         self.weight = weight
+        self.score_change = False
 
     def reward_behavior(self):
         # Using reward from the environment as behavior reward (i.e. optimize env score)
-        r_b = (self.current_score - self.previous_score)
+        r_b = 1 if self.score_change else 0
+        self.score_change = False
         self.best_rb = np.max([r_b, self.best_rb])
         self.cumulative_rb += r_b
         return r_b
@@ -28,13 +30,30 @@ class SolidRallyRallySingleObjective(SolidRallyEnvironment):
         self.period_arousal_trace.clear()
         return r_a
 
+    # def step(self, action):
+    #     state, env_score, arousal, d, info = super().step(action)
+    #
+    #     # Only assign rewards if the agent behaves correctly (passes through a checkpoint).
+    #     change_in_score = (self.current_score - self.previous_score)
+    #     if change_in_score != 0:
+    #         # print(change_in_score, self.episode_length)
+    #         final_reward = self.reward_behavior() * (1 - self.weight) + (self.reward_affect() * self.weight)
+    #         self.cumulative_rl += final_reward
+    #         self.best_rl = np.max([self.best_rl, final_reward])
+    #     else:
+    #         final_reward = 0
+    #
+    #     self.reset_condition()
+    #     return state, final_reward, d, info
 
     def step(self, action):
         state, env_score, arousal, d, info = super().step(action)
 
-        # Only assign rewards if the agent behaves correctly (passes through a checkpoint).
         change_in_score = (self.current_score - self.previous_score)
-        if change_in_score != 0:
+        if not self.score_change:
+            self.score_change = change_in_score > 0
+
+        if len(self.period_arousal_trace) != 0:
             # print(change_in_score, self.episode_length)
             final_reward = self.reward_behavior() * (1 - self.weight) + (self.reward_affect() * self.weight)
             self.cumulative_rl += final_reward

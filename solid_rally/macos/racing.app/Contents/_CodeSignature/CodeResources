@@ -6,7 +6,7 @@
 	<dict>
 		<key>Resources/Data/Managed/Assembly-CSharp.dll</key>
 		<data>
-		soQgsqeyOcs9vrT+ECCNZ/zseks=
+		tu6e/+zCtQFTrqR/RntpD+YoRuM=
 		</data>
 		<key>Resources/Data/Managed/Google.Protobuf.dll</key>
 		<data>
@@ -554,11 +554,11 @@
 		</data>
 		<key>Resources/Data/boot.config</key>
 		<data>
-		tcHDZ8mYUnPgawQD+q4tjgqWskA=
+		tqZyVH51EvIzbzEtE04n+iK/1Cg=
 		</data>
 		<key>Resources/Data/data.unity3d</key>
 		<data>
-		9qVBzY+WZYxcNaw7ANRIC37kfBg=
+		wsIx3E3i+yXGZmdnIeTfqHkxKWU=
 		</data>
 		<key>Resources/Data/sharedassets0.resource</key>
 		<data>
@@ -595,10 +595,10 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			jx0UH4n9bFqzfZ/HJM96ZPC0ptQ=
+			vpDGkhAtnDm7mR4FfYQFxhTez1E=
 			</data>
 			<key>requirement</key>
-			<string>cdhash H"8f1d141f89fd6c5ab37d9fc724cf7a64f0b4a6d4"</string>
+			<string>cdhash H"be90c692102d9c39bb991e057d8405c614decf51" or cdhash H"0c8cb88999212ab6ae3a72ec5164434fa8feb32c"</string>
 		</dict>
 		<key>Frameworks/libMonoPosixHelper.dylib</key>
 		<dict>
@@ -607,7 +607,7 @@
 			tnAugyWoUqivva0pYHiQe9ME9bo=
 			</data>
 			<key>requirement</key>
-			<string>cdhash H"b6702e8325a852a8afbdad296078907bd304f5ba"</string>
+			<string>cdhash H"b6702e8325a852a8afbdad296078907bd304f5ba" or cdhash H"a817153122abfe2b39d762cc7be7e81fc0b4eb8b"</string>
 		</dict>
 		<key>Frameworks/libmono-native.dylib</key>
 		<dict>
@@ -616,7 +616,7 @@
 			nEHndtDNVdLuwQS+Y9JtG89aUZU=
 			</data>
 			<key>requirement</key>
-			<string>cdhash H"9c41e776d0cd55d2eec104be63d26d1bcf5a5195"</string>
+			<string>cdhash H"9c41e776d0cd55d2eec104be63d26d1bcf5a5195" or cdhash H"6f95851514b89dcdd114f6718c91dbd4ddaa28df"</string>
 		</dict>
 		<key>Frameworks/libmonobdwgc-2.0.dylib</key>
 		<dict>
@@ -625,7 +625,14 @@
 			c8LblDb47beUOEZ8AXB3ARnB4Tw=
 			</data>
 			<key>requirement</key>
-			<string>cdhash H"73c2db9436f8edb79438467c0170770119c1e13c"</string>
+			<string>cdhash H"73c2db9436f8edb79438467c0170770119c1e13c" or cdhash H"bce46a6f914cd6fade82c42b9abcb536c96f52a4"</string>
+		</dict>
+		<key>ML-Agents/Timers/Solid Rally_timers.json</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			DfRDCotqIFm5TARN8ZDNH1c+RenwlW/06/WPS75iSCA=
+			</data>
 		</dict>
 		<key>MonoBleedingEdge/etc/mono/2.0/Browsers/Compat.browser</key>
 		<dict>
@@ -760,7 +767,7 @@
 			cNLFfVXWm3eHdcxniDrnuT1mXYQ=
 			</data>
 			<key>requirement</key>
-			<string>cdhash H"70d2c57d55d69b778775cc67883ae7b93d665d84"</string>
+			<string>cdhash H"70d2c57d55d69b778775cc67883ae7b93d665d84" or cdhash H"45053be13153d17b32a553cb1ae08a5ec4146fcd"</string>
 		</dict>
 		<key>PlugIns/libgrpc_csharp_ext.x64.bundle</key>
 		<dict>
@@ -775,7 +782,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			pfF/fQY8bpoO/JStUPm8aOEFEwLfvMGtIv3o/a6MdlM=
+			aU5H1MJiFVGldsI1o96AULfjiQ31swlNd+I34Ly13nc=
 			</data>
 		</dict>
 		<key>Resources/Data/Managed/Google.Protobuf.dll</key>
@@ -1734,14 +1741,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			xRhEUzAPEO/UqsYHaXRRNhiOwFrblK7GC0zDb+Lucgk=
+			7LMK76b70bEMBNVKUzGh/VlYIGlWg6jK+dV4xQpJNdQ=
 			</data>
 		</dict>
 		<key>Resources/Data/data.unity3d</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			UnMtNnchWDTmjsx+q1907+iKyr5e9G3cjCO7kiZX3Wg=
+			7WgJJUPwKcnGEwQIqgYENCPS+lvuRDA5dBfXTQ5FM2g=
 			</data>
 		</dict>
 		<key>Resources/Data/sharedassets0.resource</key>

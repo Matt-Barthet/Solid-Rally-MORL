@@ -36,7 +36,7 @@ class SolidRallyEnvironment(gym.Env, ABC):
         self.env = UnityToGymWrapper(self.env, allow_multiple_obs=True)
 
         self.action_space, self.action_size = self.env.action_space, self.env.action_space.shape
-        self.observation_space = gym.spaces.Box(low=-np.inf, high=np.inf, shape=(54,), dtype=np.float32)
+        self.observation_space = gym.spaces.Box(low=-np.inf, high=np.inf, shape=(81,), dtype=np.float32)
 
         self.model = KNNSurrogateModel(5, "Solid", cluster=cluster)
         self.scaler = self.model.scaler
@@ -46,6 +46,7 @@ class SolidRallyEnvironment(gym.Env, ABC):
         self.best_ra, self.cumulative_ra = 0, 0
         self.best_rl, self.cumulative_rl = 0, 0
 
+        self.surrogate_list = []
         self.previous_surrogate, self.current_surrogate = np.empty(0), np.empty(0)
         self.episode_arousal_trace, self.period_arousal_trace = [], []
 
@@ -83,7 +84,10 @@ class SolidRallyEnvironment(gym.Env, ABC):
 
     def generate_arousal(self):
         arousal = 0
-        self.current_surrogate = np.array(self.customSideChannel.arousal_vector.copy(), dtype=np.float32)
+
+        stacked_surrogates = np.asarray(self.surrogate_list)
+        stacked_surrogates = np.stack(stacked_surrogates, axis=-1) # stack the surrogates vertically
+        self.current_surrogate = np.mean(stacked_surrogates, axis=1) # calculate the mean of each feature across the stack
 
         if self.current_surrogate.size != 0:
             scaled_obs = np.array(self.scaler.transform(self.current_surrogate.reshape(1, -1))[0])
@@ -91,6 +95,9 @@ class SolidRallyEnvironment(gym.Env, ABC):
                 self.previous_surrogate = np.zeros(len(self.current_surrogate))
             previous_scaler = np.array(self.scaler.transform(self.previous_surrogate.reshape(1, -1))[0])
             unclipped_tensor = np.array(list(previous_scaler) + list(scaled_obs))
+
+            if np.min(scaled_obs) < 0 or np.max(scaled_obs) > 1:
+                print(f"Values outside of range: Max={np.max(scaled_obs)}@{np.where(scaled_obs > 1)[0]}, Min={np.min(scaled_obs)}@{np.where(scaled_obs < 0)[0]}")
             tensor = torch.Tensor(np.clip(unclipped_tensor, 0, 1))
             tensor= torch.nan_to_num(tensor, nan=0)
             self.previous_surrogate = previous_scaler
@@ -102,22 +109,24 @@ class SolidRallyEnvironment(gym.Env, ABC):
             self.customSideChannel.arousal_vector.clear()
         return arousal
 
+
     def step(self, action):
         self.episode_length += 1
         self.arousal_episode_length += 1
 
         self.previous_score = self.current_score
-        send_arousal = 0
-        if self.arousal_episode_length % 14 == 0:  # Request the surrogate vector 1 ticks in advanced due to delay
-            send_arousal = 1
         arousal = 0
+
+        transformed_action = [action[0] - 1, action[1] - 1, 0, 0]
+        state, env_score, done, info = self.env.step(transformed_action)
+        state = self.construct_state(state)
+
+        self.surrogate_list.append(state[-27:])
         if self.arousal_episode_length % 15 == 0:  # Read the surrogate vector on the 15th tick
             arousal = self.generate_arousal()
             self.arousal_episode_length = 0
+            self.surrogate_list.clear()
 
-        transformed_action = [action[0] - 1, action[1] - 1, send_arousal, 0, 0]
-        state, env_score, done, info = self.env.step(transformed_action)
-        state = self.construct_state(state)
         self.current_score = env_score
         return state, env_score, arousal, done, info
 
